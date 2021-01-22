@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Area 51, STAY AWAY!!!"
+AuthUserFile /web/htdocs/www.essepiortofrutta.com/home/gestionale/tools/.htpasswd
+Require valid-user

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+/* CSS Document */
+
+span[contenteditable="true"] {
+	color: #3c8dbc;
+	border-bottom: 1px dotted #f39c12 ;
+}

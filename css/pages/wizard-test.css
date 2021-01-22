@@ -1,0 +1,133 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.wizard .step{
+	border-top: 1px solid #ccc;
+	padding: 15px;
+}
+
+.wizard .step h3{
+	margin: 10px 0;
+}
+
+.wizard .step:not(.active-step) h3{
+	color: #aaa;
+}
+
+.wizard .step.completed-step h3{
+	color: #333;
+	cursor: pointer;
+}
+
+.wizard .step h3:before{
+	margin-right: 10px;
+	color: #333;
+	content: "\f096";
+	font: normal normal normal 22px/1 FontAwesome;
+}
+
+.wizard .step.completed-step h3:before{
+	color: #008D4C;
+	content: "\f046";
+}
+
+.wizard .step.completed-step h3:hover, .wizard .step.active-step h3{
+	color: #367FA9
+}
+
+.wizard .step.completed-step h3 .chosen-option{
+	font-size: 13px;
+	line-height: 16px;
+	padding: 1px 6px 3px 6px;
+	color: #fff;
+	border-radius: 3px;
+	background-color: #008D4C;
+	margin-left: 10px
+}
+
+.wizard .step .step-option, .fono{
+	width: 100%;
+	padding: 50px 0;
+	text-align: center;
+	font-size: 24px;
+	background-color: #ddd;
+	margin-bottom: 30px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
+.wizard .step .step-option:hover{
+	opacity: 0.7;
+}
+
+.wizard .step .step-option.selected-option{
+	opacity: 0.5;
+	-webkit-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.46);
+	-moz-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.46);
+	box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.46);
+}
+
+.wizard .step .step-option h1{
+	margin: 15px 0;
+}
+
+.wizard .step:not(.active-step)  > div{
+	display: none;
+}
+
+#fine-wizard > div h3{
+	text-align: center;
+}
+
+
+/* page specific */
+
+/* danger */
+.wizard .step .step-option.step-1.urgenza, 
+.wizard .step .step-option.step-3{
+	background-color: #dd4b39;
+	color: #fff;
+}
+
+/* primary */
+.wizard .step .step-option.step-2, 
+.wizard .step .step-option.step-5, 
+.wizard .step .step-option.step-6{
+	background-color: #367FA9;
+	color: #fff;
+}
+
+/* info */
+.wizard .step .step-option.step-1.servizi-sociali{
+	background-color: #00C0EF;
+	color: #fff;
+}
+
+/* warning */
+.wizard .step .step-option.step-1.programmata, 
+.wizard .step .step-option.step-2.strette, 
+.wizard .step .step-option.step-4{
+	background-color: #F39C12;
+	color: #fff;
+}
+
+/* success */
+.wizard .step .step-option.step-7{
+	background-color: #008D4C;
+	color: #fff;
+}
+
+.wizard .step .step-option.salta, .wizard .step .step-option.scegli {
+	padding: 5px 0;
+	margin-top: 2px;
+}
+
+.wizard .step .step-option.salta {
+	background-color: #dd4b39;
+}
+
+.wizard .step .step-option.scegli {
+	background-color: #B5BBC8;
+}
+
+

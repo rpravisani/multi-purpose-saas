@@ -1,0 +1,19 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.page_level_0{
+	background-color: #eee;
+}
+
+.page_level_0 thead tr th{
+	background-color: #ddd;
+}
+
+.page_level_0 > thead tr th{
+	background-color: #367FA9;
+	color: #fff;
+}
+
+.page_level_1{
+	background-color: #fff !important;
+}

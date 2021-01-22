@@ -1,0 +1,67 @@
+*** CLEAN-UP DATE: 2016-12-07 16:01:30 ***
+	nTotal number of sections: 8 
+
+Section: elenco-gommisti - 7 translations 
+-164, elenco-gommisti, name-column-name, it, Nome, 1, 2016-03-14 17:55:30
+-169, elenco-gommisti, new-gommista, it, Agg. Gommista, 1, 2016-03-14 18:01:09
+-193, elenco-gommisti, stop_message, it, Il Record non può essere cancellato perché il gommista ha interventi a suo nome., 1, 2016-03-16 17:38:44
+-163, elenco-gommisti, subtitle, it, Elenco dei gommisti, 1, 2016-03-14 17:53:56
+-165, elenco-gommisti, surname-column-name, it, Cognome, 1, 2016-03-14 17:55:30
+-162, elenco-gommisti, title, it, Gommisti, 1, 2016-03-14 17:53:56
+-166, elenco-gommisti, user-column-name, it, Nome Utente, 1, 2016-03-14 17:55:30
+
+Section: elenco-interventi - 10 translations 
+-260, elenco-interventi, foglio_lavoro, it, Foglio Lavoro, 1, 2016-03-30 07:46:59
+-259, elenco-interventi, km, it, Km., 1, 2016-03-30 07:46:31
+-258, elenco-interventi, marca_modello, it, Marca e Modello, 1, 2016-03-30 07:46:31
+-254, elenco-interventi, new-intervento, it, Nuovo intervento, 1, 2016-03-29 20:58:33
+-291, elenco-interventi, progr, it, Progressivo, 1, 2016-05-10 14:36:36
+-278, elenco-interventi, stop_message, it, Impossibile eliminare scheda, risulta esserci una schede più recente di questa., 1, 2016-05-02 17:06:45
+-279, elenco-interventi, stop_message_pluri, it, Impossibile eliminare scheda, risultano esserci altre schede più recenti di questa., 1, 2016-05-02 17:06:45
+-253, elenco-interventi, subtitle, it, Elenco degli interventi effettuati, 1, 2016-03-29 20:58:33
+-257, elenco-interventi, targa, it, Targa, 1, 2016-03-30 07:46:31
+-252, elenco-interventi, title, it, Elenco interventi, 1, 2016-03-29 20:58:33
+
+Section: elenco-stock - 14 translations 
+-249, elenco-stock, cant_switch_onoff_message, it, Pneumatico in smaltimento, impossibile riattivare.<br>Cambiare eventualmente stato gomma., 1, 2016-03-26 17:14:18
+-205, elenco-stock, deposito, it, Deposito / sede, 1, 2016-03-16 18:51:41
+-203, elenco-stock, dimensioni, it, Dimensioni, 1, 2016-03-16 18:51:41
+-275, elenco-stock, marca, it, Marca, 1, 2016-03-31 11:46:31
+-247, elenco-stock, matricola, it, Matricola, 1, 2016-03-25 19:47:00
+-204, elenco-stock, mm, it, MM., 1, 2016-03-16 18:51:41
+-202, elenco-stock, modello, it, Modello, 1, 2016-03-16 18:51:41
+-200, elenco-stock, new-stock, it, Agg. Gomma, 1, 2016-03-16 18:49:44
+-317, elenco-stock, progressivo, it, Progr., 1, 2016-06-23 17:37:03
+-276, elenco-stock, riscolpita, it, Riscolp., 1, 2016-04-12 17:30:39
+-201, elenco-stock, stato, it, Stato, 1, 2016-03-16 18:51:41
+-207, elenco-stock, subtitle, it, Lo stock gomme per cliente, 1, 2016-03-16 19:41:58
+-277, elenco-stock, targa, it, Targa, 1, 2016-04-20 18:21:04
+-206, elenco-stock, title, it, Stock Gomme, 1, 2016-03-16 19:41:58
+
+Section: gestione-gommista - 2 translations 
+-171, gestione-gommista, subtitle, it, Inserisci o modifica un gommista, 1, 2016-03-14 18:11:37
+-170, gestione-gommista, title, it, Gestione Gommista, 1, 2016-03-14 18:11:37
+
+Section: gestione-stock - 2 translations 
+-209, gestione-stock, subtitle, it, Inserisci o modifica stock gomme, 1, 2016-03-23 12:09:02
+-208, gestione-stock, title, it, Gestione stock, 1, 2016-03-23 12:09:02
+
+Section: intervento_tpl - 2 translations 
+-290, intervento_tpl, subtitle, it, Inserisci interventi effettuati dalla TPL, 1, 2016-05-04 17:19:28
+-289, intervento_tpl, title, it, Intervento TPL, 1, 2016-05-04 17:06:07
+
+Section: scheda-intervento - 2 translations 
+-251, scheda-intervento, subtitle, it, Inserisci o modifica un intervento, 1, 2016-03-29 12:11:58
+-250, scheda-intervento, title, it, Scheda intervento, 1, 2016-03-29 12:11:58
+
+Section: ultimi-interventi - 8 translations 
+-315, ultimi-interventi, date, it, Data scheda, 1, 2016-06-23 15:33:14
+-312, ultimi-interventi, diff, it, Km trascorsi, 1, 2016-06-23 14:22:54
+-314, ultimi-interventi, km_scheda, it, Km. ult. scheda, 1, 2016-06-23 14:22:54
+-313, ultimi-interventi, km_veicolo, it, Km Veicolo, 1, 2016-06-23 14:22:54
+-316, ultimi-interventi, sid, it, Ult. scheda, 1, 2016-06-23 14:22:54
+-310, ultimi-interventi, subtitle, it, I km trascorsi dall'ultimo intervento, 1, 2016-06-23 14:21:28
+-311, ultimi-interventi, targa, it, Targa, 1, 2016-06-23 14:22:54
+-309, ultimi-interventi, title, it, Km ultimo intervento, 1, 2016-06-23 14:21:28
+	n*** END CLEAN-UP: 2016-12-07 16:01:30 ***
+

@@ -1,0 +1,19 @@
+@charset "UTF-8";
+/* STYLES USED THROUGHOUT THE PROJECT */
+
+.label.urgenza{
+	background-color: #dd4b39;
+}
+
+.label.programmata{
+	background-color: #f39c12;
+}
+
+.label.servizi-sociali{
+	background-color: #00c0ef;
+}
+
+.label.fono{
+	font-size: 16px;
+	display: inline-block;
+}

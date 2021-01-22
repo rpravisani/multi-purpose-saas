@@ -1,0 +1,67 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.page_level_0{
+	background-color: #e8e8e8;
+}
+
+.page_level_1{
+	background-color: #f8f8f8 !important;
+}
+
+tr.trlabel td{
+	background-color: #fff;
+	padding-top: 25px !important;
+	padding-bottom: 20px !important;
+	border-bottom: 4px solid #bbb !important;
+	
+}
+
+#page-listing{
+	height: 50vh;
+	overflow: auto;
+}
+
+#page-listing ul li, #page-listing ul li ul li {
+	margin-left: 18px;
+}
+
+
+#page-listing ul li{
+	font-size: 16px;
+	margin-bottom: 4px;
+}
+
+#page-listing ul li ul{
+	margin-top: 5px;
+}
+
+#page-listing ul li i{
+	margin-left: 5px;
+}
+
+#page-listing ul li input{
+	margin-right: 5px;
+	
+}
+
+td small i.fa{
+	font-size: 11px;
+	cursor: pointer;
+	padding: 3px 6px;
+}
+
+tr.linked td{
+	background-color: #D6E8AD
+}
+td.deleted{
+	text-decoration: line-through;
+	color: #ccc;
+}
+
+#delmsg{
+	color: #D73925;
+	font-weight: 700;
+	padding-top: 10px;
+}
+
