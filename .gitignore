@@ -37,10 +37,11 @@ xls/*
 photo/*
 !photo/index.html 
 
-plugins/
 * - Copia*.*
 _*/
 
 phpExcelClass/
-/admin/system/
+system/*
+!system/index.html 
+
 **/PHPMailer

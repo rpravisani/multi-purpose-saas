@@ -271,7 +271,7 @@ $timepicker = $bootstrap->loadTimePicker();
         <div class="pull-right hidden-xs">
           CMR framework <strong title='DB: <?php echo DB_NAME; ?>'>Version</strong> <?php echo $_version; ?>
         </div>
-        <strong>Developed by <a href="http://saasonthebeach.com">SaaSonthebeach</a>.</strong> All rights reserved.
+        <strong>Developed by <a href="http://forumservice.net">Forum Service</a>.</strong> All rights reserved.
       </footer>
       <?php } // end if $_view != pdf ?>
 
