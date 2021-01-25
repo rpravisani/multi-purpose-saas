@@ -1,0 +1,112 @@
+/*** UPLOAD HUB  ***/
+#upload-hub{
+	border: 1px dashed #bbb;
+	border-radius: 2px;
+	width: 100%;
+	padding: 50px 0;
+	text-align: center;
+	font-size: 22px;
+	line-height: 21px;
+	font-weight: bold;
+	color: #666;
+	cursor: pointer;
+	background-color: #ECF0F5;
+	position: relative;
+}
+
+#upload-hub.disabled{
+	cursor: default;
+	color: #aaa;
+}
+
+#upload-hub.enabled:hover{
+	border-color: #367FA9;
+	opacity: 0.8;
+}
+
+#upload-hub small{
+	font-size: 14px;
+	line-height: normal;
+}
+/* loader overlay */
+#dzloader{
+	background-color: rgba(255, 255, 255, 0.6);
+	height: 100%;
+	padding-top: 50px;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+}
+
+/*** THUMBS AND PREVIEWS ***/
+
+.dz-preview{
+	float:left;
+	position: relative;
+	margin: 10px;
+	border-radius: 5px;
+	verflow: hidden;
+}
+
+/* hide */
+.dz-size, .dz-filename, .dz-error-mark,  .dz-error-message{
+	display: none;
+}
+
+/* trash icon */
+.dz-success .dz-error-mark{
+	display: block;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: rgba(0,0,0,0.5);
+	width: 100%;	
+	text-align: center;
+	color: #fff;
+	transition: all 0.4s;
+	opacity: 0;
+	cursor: move;
+}
+
+/* eye icon */
+.dz-success .dz-success-mark{
+	background-color: rgba(0,0,0,0.2);
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	z-index: 10000;
+	color: #fff;
+	transition: all 0.4s;
+	opacity: 0;	
+}
+
+/* hover over thumb */
+.dz-success:hover .dz-error-mark, 
+.dz-success:hover .dz-success-mark
+{
+	opacity: 1;	
+}
+
+.dz-success .dz-error-mark span{
+	cursor: pointer;
+}
+
+.dz-success .dz-error-mark span:hover, 
+.dz-success .dz-success-mark span:hover
+{
+	opacity: 0.7;
+}
+
+.placeholder-thumb{
+	float:left;
+	position: relative;
+	margin: 10px;
+	border-radius: 5px;
+	background-color: #eee;
+	border: 1px dashed #ccc;
+}

@@ -1,0 +1,15 @@
+
+			[{
+                id: 0,
+                name: 'Google I/O',
+                location: 'San Francisco, CA',
+                startDate: new Date(2016, 4, 28),
+                endDate: new Date(2016, 4, 29), color: "#ff0000"
+            },
+            {
+                id: 1,
+                name: 'Microsoft Convergence',
+                location: 'New Orleans, LA',
+                startDate: new Date(2016, 2, 16),
+                endDate: new Date(2016, 2, 19)
+            }]
