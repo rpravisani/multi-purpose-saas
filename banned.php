@@ -9,11 +9,13 @@ include_once 'required/classes/user_cookie.class.php';
 // create DB object
 $db = new cc_dbconnect( DB_NAME );
 
-// get blacklist
+// get blacklisted IPs
 $blacklist = $db->col_value( "IP", "system_blacklist" );
+
+// get current user IP
 $ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-// if I'm here by error resend me back to panel and consequantially to login if not logged in 
+// If I'm here by error send me back to panel and consequantially to login if not logged in 
 if ( !in_array( $ip, $blacklist ) or LOCALHOST ) {
 
   header( 'location: ' . HTTP_PROTOCOL . HOSTROOT . SITEROOT . PANEL );
@@ -28,7 +30,7 @@ include_once 'required/access-language-handler.php';
 // get languages options
 $lang_options = getSelectOptions( "code", "language", DBTABLE_LANGUAGES, $lang_code, false, "WHERE active = '1'", false );
 
-// intercept gets
+// intercept and eliminate all gets
 unset( $_GET );
 
 // eliminate session values that are not needed
