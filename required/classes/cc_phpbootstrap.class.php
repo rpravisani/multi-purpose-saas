@@ -509,15 +509,23 @@ class phpbootstrap{
 		$p = $this->setInputParams($label, $name, $required, $tabindex, $id, $placeholder, $readonly, $disabled, $maxleng, $min, $max, $step, $data);
 
 		$out  = "<div class=\"".$form_group_class."\">\n";
-		if(!empty($p['label'])) $out .= "  <label>".$p['label']."</label>\n";
-		if(!empty($addon)) $out .= "  <div class=\"input-group\">\n  ";
-		if(!empty($addon) and !$addonEnd) $out .= "  <span class=\"input-group-addon\">".$addon."</i></span>\n  ";
+		if(!empty($p['label']))           $out .= "  <label>".$p['label']."</label>\n";
+        
+        // addon start
+		if(!empty($addon))                $out .= "  <div class=\"input-group\">\n  ";
+		if(!empty($addon) and !$addonEnd) $out .= "    <span class=\"input-group-addon\">".$addon."</i></span>\n  ";
+        
 		$out .= "  <input type=\"".$type."\" ".$p['name']." ".$p['id']." value=\"".$value."\" ".$p['placeholder']." class=\"form-control ".$eclass."\" ".$p['data']." ".$p['required']." ".$p['tabindex']." ".$p['readonly']." ".$p['disabled']." ".$p['maxleng']." ".$p['min']." ".$p['max']." ".$p['step'].">\n";
-		if(!empty($addon) and $addonEnd) $out .= "    <span class=\"input-group-addon\">".$addon."</i></span>\n";
-		if(!empty($addon)) $out .= "  </div>\n  ";
-		$out .= "</div>\n";
+		
+        // addon end
+        if(!empty($addon) and $addonEnd)  $out .= "    <span class=\"input-group-addon\">".$addon."</i></span>\n";
+		if(!empty($addon))                $out .= "  </div>\n  "; // chiudi input-group
+		
+        $out .= "<span class=\"help-block\"></span>"; // fine $form_group_class
+        $out .= "</div>\n"; // fine $form_group_class
 		
 		return $out;
+        
 	}
 	
 	public function checkbox($name, $checked = false, $comment = "", $before = false, $disabled = false, $id = false, $class = false){	
