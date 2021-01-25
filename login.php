@@ -13,7 +13,7 @@ $db = new cc_dbconnect(DB_NAME);
 $blacklist = $db->col_value( "IP", "system_blacklist" );
 $ip = $_SERVER[ 'REMOTE_ADDR' ];
 
-// if I'm here by error resend me back to panel and consequantially to login if not logged in 
+// If IP belongs to banned IP redirect to banned.php
 if ( in_array( $ip, $blacklist ) and !LOCALHOST  ) {
 
   header( 'location: ' . HTTP_PROTOCOL . HOSTROOT . SITEROOT . "banned.php" );
