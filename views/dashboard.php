@@ -106,7 +106,7 @@ ob_start();
 <?php } ?>                  
 <!-- Fine Ticket utente aperti ------------------------------------------------------------------------>
 
-
+<?php /* ?>
 <div class="row">
 
     <?php if(!$sono_cliente){ ?>
@@ -219,7 +219,7 @@ ob_start();
    
 </script>
 
-
+<?php */ ?>
 
 
 <?php
