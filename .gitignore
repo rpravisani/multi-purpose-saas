@@ -41,7 +41,8 @@ photo/*
 _*/
 
 phpExcelClass/
-system/*
-!system/index.html 
+system/*.utime
+
+images/_*.*
 
 **/PHPMailer

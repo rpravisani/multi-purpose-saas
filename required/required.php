@@ -640,21 +640,22 @@ function versioning(){
 	if($jsversions){
 		foreach($jsversions as $p=>$filenames){
 			foreach($filenames as $filename){
-				if($filename == "." or $filename == ".." or is_dir($filename)) continue;
+				if($filename == "." or $filename == ".." or $filename == "index.html" or is_dir($filename)) continue;
 				
 				$subpath = (empty($p)) ? "" : $p."/";
 				$filepath = FILEROOT."js/".$subpath.$filename;
 				$filedatetime = filemtime($filepath); // epoch
+				$filesize = filesize($filepath); // in bytes
 				
 				$oldfiledatetime = $oldversions[$filename];
 				
 				if(empty($oldfiledatetime)){
 					// save to db
-					$db->insert("versioning", array($filename, $filedatetime), array("file", "datetime"));
+					$db->insert("versioning", array($filename, $filedatetime, $filesize), array("file", "datetime", "filesize"));
 					$addversion = false;
 				}else{
 					if($oldfiledatetime !=  $filedatetime) $addversion =  true;
-					$db->update("versioning", array("datetime" => $filedatetime), "WHERE file = '".$filename."'");
+					$db->update("versioning", array("datetime" => $filedatetime, "filesize" => $filesize), "WHERE file = '".$filename."'");
 				} // end if empty
 			} // end foreach
 		} // end foreach
