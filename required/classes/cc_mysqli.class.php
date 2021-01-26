@@ -125,11 +125,9 @@ class cc_dbconnect{
 			foreach($dbg as $v){
 				$fne = explode("/", $v['file']);
 				$file = end($fne);
-				if(!in_array($file, $this->system_filenames)){
-					$msg  = "MYSQL ERROR in <strong>".$file."</strong> on line <strong>".$v['line']."</strong> (function <em>".$v['function']."</em>)<br>\n";
-					$msg .= "#".$this->conn->errno." : ".$this->conn->error."<br>\n<em>".$this->qry."</em>";
-					continue;
-				}
+				if(in_array($file, $this->system_filenames) and !DEBUG) continue;
+                $msg  = "MYSQL ERROR in <strong>".$file."</strong> on line <strong>".$v['line']."</strong> (function <em>".$v['function']."</em>)<br>\n";
+                $msg .= "#".$this->conn->errno." : ".$this->conn->error."<br>\n<em>".$this->qry."</em>";
 			} // end foreach
 		}
 		$this->error['msg'] = (empty($msg)) ? $this->error['rawmsg'] : $msg;
