@@ -59,8 +59,10 @@ foreach($_FILES as $k=>$v){
 		// get insert id 
 		$insert_id = $db->get_insert_id();
 	}else{
-		$output['error'] = $_t->get('record_media');
-		$output['msg'] = $_t->get('record_media_message');
+		//$output['error'] = $_t->get('record_media');
+		//$output['msg'] = $_t->get('record_media_message');
+		$output['error'] = "Errore durante inserimento in DB";
+		$output['msg'] = $db->getError("msg")." - ".$db->getQuery();
 		echo json_encode($output);
 		die();
 	}

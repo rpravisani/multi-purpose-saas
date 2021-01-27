@@ -6,7 +6,7 @@ class media_upload{
 	private $core_js_file 	= "plugins/dropzone/dropzone.js";
 	private $core_css_file 	= "plugins/dropzone/dropzone.css";
 	private $thumbnails 	= "";
-	private $mediapath		= "";
+	private $mediapath		= FILEROOT.PATH_PHOTO;
 	
 	/*** JS VARS ***/
 	private $url 					= "calls/media_upload.php"; 
@@ -32,7 +32,6 @@ class media_upload{
 		$this->record 		= $_record;
 		$this->pagehash 	= $_pagehash;
 		$this->translate 	= $_t;
-		$this->mediapath 	= FILEROOT.PATH_PHOTO;
 		
 		
 		// if any value is passed memorize it locally
@@ -66,6 +65,44 @@ class media_upload{
 		
 		return true; // to be sure	
 	}
+    
+    public function setDiv($name = false){
+        
+        if(empty($name) of !is_string($name)) return false;
+        
+        $this->upload_div = trim($name);
+        
+        return true;
+        
+    }
+
+    /**
+     * Setto nome sottocartella in cui collocare le foto caricate, 
+     */
+    public function setMediaSubPath($path = false){
+        
+        if(empty($path) of !is_string($path)) return false;
+        $path = trim($path);
+                
+        $this->mediapath = FILEROOT.PATH_PHOTO . $path;
+        
+        return true;
+        
+    }
+
+    /**
+     * Sostituisco path default con nuova path. Usare con cautela! 
+     */
+    public function setMediaPath($path = false){
+        
+        if(empty($path) of !is_string($path)) return false;
+        $path = trim($path);
+                
+        $this->mediapath = $path;
+        
+        return true;
+        
+    }
 
 	
 	/************** GET VALUES **************/
