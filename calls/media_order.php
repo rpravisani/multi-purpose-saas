@@ -28,7 +28,7 @@ if(empty($_POST['ord'])){
 }
 
 // sanitize post values
-$id 	= (int) $_POST['id'];
+$id  = (int) $_POST['id'];
 $ord = (int) $_POST['ord'];
 
 $media = $db->get1row(DBTABLE_MEDIA, "WHERE id = '".$id."'");
