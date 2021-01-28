@@ -235,9 +235,17 @@ class media_upload{
 	public function getHtml(){
 		global $canedit;
 		$class = ($canedit) ? "enabled" : "disabled";
-		$out  = "<div class='".$class."' id=\"".$this->upload_div."\"><span>".$this->hubtext."</span></div>\n";
-		$out .= "<div class='".$class."' id=\"".$this->thumbnail_div."\">".$this->thumbnails."</div>\n";
-		return $out;
+        
+        $out  = "<div class='row'>\n";
+        $out .= "  <div class='col-sm-6'>\n";
+		$out .= "     <div class='".$class."' id=\"".$this->upload_div."\"><span>".$this->hubtext."</span></div>\n";
+        $out .= "  </div>\n";
+        $out .= "  <div class='col-sm-6'>\n";
+		$out .= "     <div class='".$class."' id=\"".$this->thumbnail_div."\">".$this->thumbnails."</div>\n";
+        $out .= "  </div>\n";
+        $out .= "</div>\n";
+		
+        return $out;
 	}
 	
 	// delete all the records in the 'media' tab that have record set to 0, page id of current page and have been uploaded by the current user (identified by unique id of log_access table)
