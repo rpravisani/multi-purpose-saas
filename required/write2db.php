@@ -30,6 +30,12 @@ $_configs = $db->key_value("param", "value", DBTABLE_CONFIG);
 
 if(!empty($_configs['debug'])) ini_set("display_errors", "1");
 
+// Set constants based on config values
+define ('MAINTENANCE', $_configs['maintenance_mode']);
+if($_configs['debug'] == '0'){ define ('DEBUG', false); }else{ define ('DEBUG', true); } 
+if($_configs['isdemo'] == '0'){ define ('ISDEMO', false); }else{ define ('ISDEMO', true); } 
+
+
 // User and translation. 
 $_user = new cc_user($_SESSION['login_id'], $db);
 $_t = new cc_translate($db, "write2db", $_user->getLanguage()); // create instance of translate class
