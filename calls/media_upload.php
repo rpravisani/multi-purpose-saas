@@ -49,7 +49,8 @@ foreach($_FILES as $k=>$v){
 	// hash name
 	$file = sha1($_FILES[$k]["name"].time()).".".$extension;
 	
-	if($db->insert(DBTABLE_MEDIA, array($name, $file, $_FILES[$k]["size"], $pid, $record, $_SESSION['access_log_id']), array("name", "file", "size", "page", "record", "uploadedby"))){
+	if($db->insert(DBTABLE_MEDIA, array($name, $file, $_FILES[$k]["size"], $pid, $record, 0, $_SESSION['access_log_id']), 
+                   array("name", "file", "size", "page", "record", "order", "uploadedby"))){
 		if(!move_uploaded_file($_FILES[$k]["tmp_name"],$path.$file)){
 			$output['error'] = $_t->get('move_media');
 			$output['msg'] = $_t->get('move_media_message');
