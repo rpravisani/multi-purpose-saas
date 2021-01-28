@@ -66,44 +66,6 @@ class media_upload{
 		return true; // to be sure	
 	}
     
-    public function setDiv($name = false){
-        
-        if(empty($name) of !is_string($name)) return false;
-        
-        $this->upload_div = trim($name);
-        
-        return true;
-        
-    }
-
-    /**
-     * Setto nome sottocartella in cui collocare le foto caricate, 
-     */
-    public function setMediaSubPath($path = false){
-        
-        if(empty($path) of !is_string($path)) return false;
-        $path = trim($path);
-                
-        $this->mediapath = FILEROOT.PATH_PHOTO . $path;
-        
-        return true;
-        
-    }
-
-    /**
-     * Sostituisco path default con nuova path. Usare con cautela! 
-     */
-    public function setMediaPath($path = false){
-        
-        if(empty($path) of !is_string($path)) return false;
-        $path = trim($path);
-                
-        $this->mediapath = $path;
-        
-        return true;
-        
-    }
-
 	
 	/************** GET VALUES **************/
 	
@@ -362,12 +324,46 @@ class media_upload{
 		$this->help_js_file = $name;
 	}
 
-	public function setMediaPath($path){
-		$this->mediapath = $path;
-	}
+    /**
+     * cambio il nome default del div contenitore del hub 
+     */
+    public function setDivID($name = false){
+        
+        if(empty($name) or !is_string($name)) return false;
+        
+        $this->upload_div = trim($name);
+        
+        return true;
+        
+    }
 
-	
+    /**
+     * Setto nome sottocartella in cui collocare le foto caricate, 
+     */
+    public function setMediaSubPath($path = false){
+        
+        if(empty($path) or !is_string($path)) return false;
+        $path = trim($path);
+                
+        $this->mediapath = FILEROOT.PATH_PHOTO . $path;
+        
+        return true;
+        
+    }
 
+    /**
+     * Sostituisco path default con nuova path. Usare con cautela! 
+     */
+    public function setMediaPath($path = false){
+        
+        if(empty($path) or !is_string($path)) return false;
+        $path = trim($path);
+                
+        $this->mediapath = $path;
+        
+        return true;
+        
+    }
 
 }
 ?>
