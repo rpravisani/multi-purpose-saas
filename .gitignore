@@ -38,6 +38,7 @@ _*/
 phpExcelClass/
 system/*.utime
 
-images/_*.*
+images/*.*
+favicon.ico
 
 **/PHPMailer
