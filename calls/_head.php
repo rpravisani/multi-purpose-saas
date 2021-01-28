@@ -24,6 +24,10 @@ set_error_handler(array($_errorhandler, 'regError'), E_ALL ^ E_NOTICE);
 // load configs from DB
 $_configs = $db->key_value("param", "value", DBTABLE_CONFIG);
 
+// export some config settings to constants
+define ('MAINTENANCE', $_configs['maintenance_mode']);
+if($_configs['debug'] == '0'){ define ('DEBUG', false); }else{ define ('DEBUG', true); } 
+if($_configs['isdemo'] == '0'){ define ('ISDEMO', false); }else{ define ('ISDEMO', true); } 
 
 if(!empty($_configs['debug'])) ini_set("display_errors", "1");
 
