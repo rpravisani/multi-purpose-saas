@@ -26,9 +26,10 @@ if(empty($_POST['id'])){
 // sanitize post values
 $id 	= (int) $_POST['id'];
 
-// get filename from DB
+// get record from DB
 $media = $db->get1row(DBTABLE_MEDIA, "WHERE id = '".$id."'");
 
+// se non ho trovato il record in db resitutisco errore
 if(!$media){
 	$output['error'] = $_t->get('nofilename'); // translation in general section 
 	$output['msg'] = $_t->get('nofilename_message'); // translation in general section 
@@ -36,23 +37,40 @@ if(!$media){
 	die();
 }
 
-if(!unlink($path.$media['file'])){
-	$output['error'] = $_t->get('unlink_media'); // translation in general section 
-	$output['msg'] = $_t->get('unlink_media_message'); // translation in general section 
-	echo json_encode($output);
-	die();
+// sostituisco path generico con path definito in DB
+if(!empty($media['path'])) $path = FILEROOT.$media['path'];
+
+if( file_exists($path.$media['file']) ){
+    
+    // elimina file se non riesco a cancellare invio messaggio di errore
+    if(!unlink($path.$media['file'])){
+        $output['error'] = $_t->get('unlink_media'); // translation in general section 
+        $output['msg'] = $_t->get('unlink_media_message'); // translation in general section 
+        echo json_encode($output);
+        die();
+    }
+    
 }
 
+
+// rimuovo singolo record da tabella media
 if($db->delete(DBTABLE_MEDIA, "WHERE id = '".$id."'")){
-	// reset order
-	$update_qry = "UPDATE ".DBTABLE_MEDIA." SET `order` = `order` -1 WHERE page = '".$media['page']."' 
-							AND record = '".$media['record']."' AND `order` > '".$media['order']."'";
-	$db->execute_query($update_qry);
+	
+    // Reest order: diminiuisco di 1 il valore ordine per tutti i media della pagin, record e sezione che avevano un ordine maggiore del file cancellato
+	$update_qry = "UPDATE ".DBTABLE_MEDIA." 
+                    SET `order` = `order` -1 
+                    WHERE page = '".$media['page']."' 
+                    AND record = '".$media['record']."' 
+                    AND section = '".$media['section']."' 
+                    AND `order` > '".$media['order']."'";
+	
+    $db->execute_query($update_qry);
 	
 	$output['result'] = true;
 	$output['error'] = "";
 	$output['msg'] = "";
 }else{
+    // errore: non sono risucito a cancellare file
 	$output['error'] = $_t->get('delrec_media'); // translation in general section 
 	$output['msg'] = $_t->get('delrec_media_message'); // translation in general section 
 }

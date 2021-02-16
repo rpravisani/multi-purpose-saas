@@ -9,6 +9,12 @@ window.onbeforeunload = function () {
    }
 }
 
+window.addEventListener('resize', function(){
+    $(".select2").select2();
+});
+
+ 
+
 $(document).ready(function() {
 	
 	// se un intpu ha la classe 'select-on-click' quando ci clicco dentro seleziona il contenuto
@@ -87,7 +93,7 @@ $(document).ready(function() {
 		
 
 
-    $( "#media-thumbs" ).sortable({      
+    $( ".media-thumbs" ).sortable({      
       handle: ".dz-error-mark", 
 	  placeholder: "placeholder-thumb", 
 	  update: function( event, ui ) {

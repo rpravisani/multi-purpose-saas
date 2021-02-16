@@ -41,7 +41,7 @@ if(isset($_GET['file'])){
 // elaborate other get params
 $target_width =  (isset($_GET['w'])) ? intval($_GET['w']) : 0; // width of output image - numbers only
 $target_height = (isset($_GET['h'])) ? intval($_GET['h']) : 0; // height of output image - numbers only
-$fill_color =    (isset($_GET['fc'])) ? parseBool($_GET['fc']) : false; // fill color: of != false keeps aspect ratio and fills the gaps with the defined color - can be #xxx, #xxxxxx or false
+$fill_color =    (isset($_GET['fc'])) ? $_GET['fc'] : false; // fill color: of != false keeps aspect ratio and fills the gaps with the defined color - can be #xxx, #xxxxxx or false
 $cutimage =      (isset($_GET['c'])) ? parseBool($_GET['c']) : false; // cut image instead of streching/squashing it - ignored if fc != false - boolean
 $portion =       (isset($_GET['p'])) ? intval($_GET['p']) : 50; // only for cut image, the starting point in % from where to extract from original image (0 = top, 50 = middle, 10 = bottom)
 $upscale =       (isset($_GET['u'])) ? parseBool($_GET['u']) : false; // upscales image if w/h > than source image. if false max size of output file will be size of original img - ignored if fc != false - boolean

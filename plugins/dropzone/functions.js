@@ -10,8 +10,9 @@ $(document).ready(function() {
 	});
 	
 	$(document).on("click", ".dz-success .dz-error-mark span", function(){
+        
 		var t = $(this).closest("div.dz-preview");
-		if(confirm("Cancello questa immagine?")){
+		if(confirm("Sei sicuro di voler cancellare questa immagine?")){
 			t.fadeOut("fast", function(){ $(this).remove(); });	
 		}
 	});

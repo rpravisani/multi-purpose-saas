@@ -361,6 +361,7 @@ if(RESTRICTED_ACCESS){
 		
 		/*** Stylesheets and javascript assets queue TODO: inserire tutti quelli standard qua dentro ***/
 		$css_assets = $js_assets = array();
+        $inline_js = ""; // will be outputted inside scritp tags at the end of cpanel
 			   
 	}  // end if (@$_SESSION['login'] !== true)
 	

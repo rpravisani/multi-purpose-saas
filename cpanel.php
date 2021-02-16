@@ -6,7 +6,6 @@ include_once 'required/required.php';
 // select assets to load
 $timepicker = $bootstrap->loadTimePicker();
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -94,7 +93,7 @@ $timepicker = $bootstrap->loadTimePicker();
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><img src='images/logo-xs.png' width="35"><?php //echo NOME_DITTA_LOGO_S; ?></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><img src='images/logo-sm.png' style='max-width: 100%' ><?php //echo NOME_DITTA_LOGO_L; ?></span>
+          <span class="logo-lg"><img src='images/logo-sm.png' style='max-width: 60%' ><?php //echo NOME_DITTA_LOGO_L; ?></span>
         </a>
         
         <!-- Header Navbar: style can be found in header.less -->
@@ -385,6 +384,8 @@ $timepicker = $bootstrap->loadTimePicker();
     <!-- dropzone setup  -->
     <?php echo $_upload->setup(); ?>
 	<?php } ?>
+        
+    <?php echo $inline_js; ?>
 	
 	window.onbeforeunload = function () {
 	   if (!okayToLeave) {

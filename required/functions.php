@@ -14,12 +14,13 @@ function ccDateTime($date = "", $format = "d/m/Y", $onError = '---'){
     return $date->format($format);
 }
 
-function array2table($arr, $prima_riga_intestazione = true, $table_params = array(), $td_class = array()){
-	if(!is_array($arr)) return false;
+function array2table($array, $prima_riga_intestazione = true, $table_params = array(), $td_class = array(), $rowkey_is_tr_id = false){
+	if(!is_array($array)) return false;
 	
+    /* thead */
 	if($prima_riga_intestazione){
-		$ths = array_keys(reset($arr));
-		if(empty($ths)) return "ths è vuoto";
+		$ths = array_keys(reset($array));
+		if(empty($ths)) return "";
 		$thead = "<thead>\n<tr>\n";
 		
 		foreach($ths as $th){
@@ -27,10 +28,12 @@ function array2table($arr, $prima_riga_intestazione = true, $table_params = arra
 		}
 		$thead .= "</tr>\n</thead>\n";
 	}
-		
+
+    /* tbody */
 	$tbody = "<tbody>\n";
-	foreach($arr as $tr){
-		$tbody .= "<tr>\n";	
+	foreach($array as $rowkey => $tr){
+        
+		$tbody .= (!$rowkey_is_tr_id) ? "<tr>\n" : "<tr data-id='".$rowkey."'>\n";	
 		
 		foreach($tr as $i=>$td){
 			$cc = $td_class[$i];
@@ -42,7 +45,7 @@ function array2table($arr, $prima_riga_intestazione = true, $table_params = arra
 	}
 	$tbody .= "</tbody>\n";
 	
-	//$table = "<table border='1'>\n".$thead.$tbody."</table>\n";
+    /* table */
 	$table = "<table";
 	if(is_array($table_params)){
 		foreach($table_params as $k=>$v){
@@ -118,6 +121,7 @@ function cc_date_eu2us ($data, $div = "-"){
 }
 
 // Cambia formattzione data da quella americana a quella europea
+// LEGACY, USARE AL SUO POSTO new DateTime() O FUNCTION ccDateTime()
 function cc_date_us2eu ($data, $div = "/"){
    list ($anno, $mese, $giorno) = preg_split ('/[-\/.]/', $data);
    if (strlen($giorno)==2 and strlen($mese)==2 and strlen($anno)==4){

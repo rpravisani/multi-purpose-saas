@@ -20,6 +20,7 @@ if(empty($_POST['id'])){
 	die();
 }
 
+// verifico che sia stato passato un numero ordinamento e in caso contrario do' errore
 if(empty($_POST['ord'])){
 	$output['error'] = $_t->get('noord'); // translation in general section 
 	$output['msg'] = $_t->get('noord_message'); // translation in general section 
@@ -28,22 +29,26 @@ if(empty($_POST['ord'])){
 }
 
 // sanitize post values
-$id  = (int) $_POST['id'];
-$ord = (int) $_POST['ord'];
+$id  = (int) $_POST['id']; // record id del file media di cui ho camiato l'ordine
+$ord = (int) $_POST['ord']; // il numovo numero ordinale
 
+// recupero il record del file che sto spostando
 $media = $db->get1row(DBTABLE_MEDIA, "WHERE id = '".$id."'");
+
+// la posizione ordinale prima dello spostamento
 $old_pos = (int) $media['order'];
+
 
 if($ord < $old_pos){
 	// new position is smaller than old position - moving to the left /  move inbetweens to the right (+)
 	$update_qry = "UPDATE ".DBTABLE_MEDIA." SET `order` = `order` + 1 
-					WHERE page = '".$media['page']."' AND record = '".$media['record']."' 
+					WHERE page = '".$media['page']."' AND record = '".$media['record']."' AND section = '".$media['section']."' 
 					AND `order` BETWEEN '".$ord."' AND '".$old_pos."'";
 					
 }else{
 	// new position is larger than old position - moving to the right /  move inbetweens to the left (-)
 	$update_qry = "UPDATE ".DBTABLE_MEDIA." SET `order` = `order` - 1 
-					WHERE page = '".$media['page']."' AND record = '".$media['record']."' 
+					WHERE page = '".$media['page']."' AND record = '".$media['record']."' AND section = '".$media['section']."' 
 					AND `order` BETWEEN '".$old_pos."' AND '".$ord."'";
 					
 }
