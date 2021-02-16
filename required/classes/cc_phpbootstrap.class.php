@@ -477,7 +477,7 @@ class phpbootstrap{
 	}
 
 	// create input type password element complete with bootstrap wrapper and label. Addon <i class="fa fa-envelope"></i>' default = on
-	public function inputUrl($label, $name, $value = false, $placeholder = "", $required = false, $tabindex = false, $readonly = false, $disabled = false, $maxleng = 0, $id = false, $addon = "", $addonEnd = false, $class = "", $data = false){
+	public function inputUrl($label, $name = "", $value = false, $placeholder = "", $required = false, $tabindex = false, $readonly = false, $disabled = false, $maxleng = 0, $id = false, $addon = "", $addonEnd = false, $class = "", $data = false){
 		
 		// This allows the use of an array with arguments and maintain backward compatibility
 		if(is_array($label)) extract($label);

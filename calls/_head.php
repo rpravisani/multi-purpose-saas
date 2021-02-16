@@ -29,7 +29,8 @@ define ('MAINTENANCE', $_configs['maintenance_mode']);
 if($_configs['debug'] == '0'){ define ('DEBUG', false); }else{ define ('DEBUG', true); } 
 if($_configs['isdemo'] == '0'){ define ('ISDEMO', false); }else{ define ('ISDEMO', true); } 
 
-if(!empty($_configs['debug'])) ini_set("display_errors", "1");
+//if(!empty($_configs['debug'])) ini_set("display_errors", "1");
+ini_set("display_errors", "On");
 
 
 // load project helper class
