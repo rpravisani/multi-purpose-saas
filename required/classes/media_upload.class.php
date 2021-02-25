@@ -244,8 +244,8 @@ class media_upload{
                             this.on(\"success\", function(file, responseText) { 
                                 var response = JSON.parse(responseText);
                                 if(response.result){
-                                    //var hidden = \"<input type='hidden' name='media[]' id='media_\"+response.id+\"' value='\"+response.id+\"'>\";
-                                    //$(\"form\").append(hidden);
+                                    var hidden = \"<input type='hidden' name='media[]' id='media_\"+response.id+\"' value='\"+response.id+\"'>\";
+                                    $(\"form\").append(hidden);
                                     var t = file.previewTemplate;
                                     var e = $(t).find(\".dz-error-mark span\");
                                     if(!e.length){
