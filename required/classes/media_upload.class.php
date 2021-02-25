@@ -244,8 +244,8 @@ class media_upload{
                             this.on(\"success\", function(file, responseText) { 
                                 var response = JSON.parse(responseText);
                                 if(response.result){
-                                    var hidden = \"<input type='hidden' name='media[]' id='media_\"+response.id+\"' value='\"+response.id+\"'>\";
-                                    $(\"form\").append(hidden);
+                                    //var hidden = \"<input type='hidden' name='media[]' id='media_\"+response.id+\"' value='\"+response.id+\"'>\";
+                                    //$(\"form\").append(hidden);
                                     var t = file.previewTemplate;
                                     var e = $(t).find(\".dz-error-mark span\");
                                     if(!e.length){
@@ -272,6 +272,9 @@ class media_upload{
                 $(document).on(\"click\", \"#".$this->thumbnail_div." .dz-success .dz-error-mark span\", function(){
                     var t = $(this);
                     var p = t.closest(\"div.dz-preview\");
+                    var fileName = p.find('.dz-filename span').text();
+                    
+                    
                     if(confirm(\"".$this->delete_media_confirm."\")){
 
                         $.post(  
@@ -279,8 +282,27 @@ class media_upload{
                          {id: t.data(\"id\")},  
                          function(response){
 
-                             if (response.result){													
-                                p.fadeOut(\"fast\", function(){ $(this).remove();  switchDropzone".$this->camelCase($this->section, true)."(); });								
+                             if (response.result){		
+                      
+                                p.fadeOut(\"fast\", function(){ 
+                                
+                                
+                                    if( MyDropzone".$this->camelCase($this->section, true).".files.length){
+                                        // ci siono dei file appena caricati
+                                        var remain = [];
+                                        $.each(MyDropzone".$this->camelCase($this->section, true).".files, function(i,e){
+                                            if( e.name != fileName ){
+                                                remain.push( MyDropzone".$this->camelCase($this->section, true).".files[i] );
+                                            }
+                                        });
+                                        
+                                        MyDropzone".$this->camelCase($this->section, true).".files = remain;
+                                    }
+                                     
+                                    $(this).remove();
+                                    
+                                    switchDropzone".$this->camelCase($this->section, true)."(); 
+                                });								
                              }else{
                                  modal(response.msg, response.error, response.errorlevel);
                              }
