@@ -777,6 +777,56 @@ class media_upload{
         return $string;        
         
     }
+    
+    /*** STATIC METHODS ***/
+    public static function delete($id){
+        
+        global $db;
+        
+        $id = (int) $id;
+        
+        if(empty($id)) return 0;
+        
+        $path = FILEROOT.PATH_PHOTO;
+        
+        $media = $db->get1row(DBTABLE_MEDIA, "WHERE id = '".$id."'");
+        
+        if(!$media) return 0;
+        
+        // update path
+        if(!empty($media['path'])) $path = FILEROOT.$media['path'];
+
+        if( file_exists($path.$media['file']) ){
+
+            // elimina file se non riesco a cancellare invio messaggio di errore
+            if(!unlink($path.$media['file']) ){
+                return false;
+            }
+
+        }
+        
+        if($db->delete(DBTABLE_MEDIA, "WHERE id = '".$id."'")){
+
+            // Reset order: diminiuisco di 1 il valore ordine per tutti i media della pagina, record e sezione che avevano un ordine maggiore del file cancellato
+            $update_qry = "UPDATE ".DBTABLE_MEDIA." 
+                            SET `order` = `order` -1 
+                            WHERE page = '".$media['page']."' 
+                            AND record = '".$media['record']."' 
+                            AND section = '".$media['section']."' 
+                            AND `order` > '".$media['order']."'";
+
+            $db->execute_query($update_qry);
+
+            return true;
+            
+        }else{
+            
+            return false;
+            
+        }
+        
+        
+    }
 
 }
 ?>
