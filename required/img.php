@@ -32,6 +32,7 @@ if(isset($_GET['file'])){
 	$full_path = implode("/", $path_segments); // reconstruct full path without the file name
 	$explode =  explode(".", $photo);
 	$ext = end( $explode ); // get extension
+    $ext = strtolower($ext);
 }else{
 	// TODO  traduzione
 	$dummy->draw("No image defined!"); // after output script dies
