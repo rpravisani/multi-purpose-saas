@@ -31,7 +31,10 @@ $(document).ready(function() {
 	$(document).on('click', "#select-none", function(){
 		uncheckRows(false);
 	});	
-
+    
+    /**
+     * Delete multirows
+     */
 	$(document).on('click', "#delete-rows", function(){
 		if(rowsChecked.length == 0){
 			alert("Please check at least one row!") // should not happen at all...
@@ -45,12 +48,21 @@ $(document).ready(function() {
 		 {record: rowsChecked, pid: pid, disable: false, deldependencies: false },  
 		 function(response){
 			 restoreBtnStatus(t);
-			 if(response.result){				
-				 // remove rows
+			 if(response.result){	
+                 
 				 if(response.deleted.length > 0){
-					 $.each(response.deleted, function(i,e){
-						 $("#"+e).fadeOut("fast", function(){ dtable.row('#'+e).remove().draw( false ); });
-					 });
+                     
+                     // record successfully deleted
+                     
+                     if(response.reload){
+                         // if reload switch is true reload page
+                         location.reload();
+                     }else{
+                         $.each(response.deleted, function(i,e){
+                             $("#"+e).fadeOut("fast", function(){ dtable.row('#'+e).remove().draw( false ); });
+                         });
+                     }
+                     
 				 }
 				 if(response.error){
 					 modal(response.msg, response.error, "warning", false);
@@ -140,7 +152,6 @@ $(document).ready(function() {
 			});			
 		}
 	});
-
 	
 	$('.quickfilters input').on('ifUnchecked', function(event){
 		var col = $(this).data("col")
@@ -285,6 +296,27 @@ $(document).ready(function() {
 		window.location = "cpanel.php"+qry;
 	});
 
+    $(document).on("click", ".toggle-switch", function(){
+        var t = $(this);
+        if(t.hasClass("toggle-disabled")) return;
+        
+        var toggleId = t.prop("id");
+        var inputId = toggleId.substring(7);
+        
+        var onoff = t.data("onoff");
+        if(onoff == 'off'){
+            // it's off, turn it on
+            $("#"+inputId).val('1').trigger("change");
+            t.removeClass("fa-toggle-off").addClass("fa-toggle-on");
+            t.data("onoff", "on");
+        }else{
+            // it's on, turn it off
+            $("#"+inputId).val('0').trigger("change");
+            t.removeClass("fa-toggle-on").addClass("fa-toggle-off");
+            t.data("onoff", "off");
+        }
+    });
+    
 
 	/*** STANDARD BUTTONS FOR TABLES ***/
 	// On/off or publish/unpublish button
@@ -348,8 +380,12 @@ $(document).ready(function() {
 		 function(response){
 			 t.removeClass("loader"); // remove spinner
 			 if (response.result){				
-				 // Normal no problem cancel - remove row from table
-				 tr.fadeOut("fast", function(){ dtable.row('#'+record).remove().draw( false ); }); // update table info
+				 // Record cancelled. If relaod switch is true reload page else just remove row from table (swtich is set in switchfile)
+                 if(response.reload){
+                     location.reload();
+                 }else{
+                     tr.fadeOut("fast", function(){ dtable.row('#'+record).remove().draw( false ); }); // update table info
+                 }
 			 }else{
 				 // stop or dependencies...
 				 t.addClass("fa-trash"); // reset to original trash icon
@@ -1426,3 +1462,34 @@ function checkEmail(v){
 	}
 	
 }
+
+function forceToggle(id, value){
+    
+    var h = $("#"+id);
+    var t = $("#toggle_"+id);
+    
+    if(!t.length) return false;
+    if(!h.length){
+        alert("Toggle "+id+" is disabled");
+        return false;
+    }
+    
+    value = parseInt(value);
+    if(value > 1 || value < 0) value = 0;
+    h.val(value);
+
+    if(value == 1){
+        // turn on
+        t.removeClass("fa-toggle-off").addClass("fa-toggle-on");
+        t.data("onoff", "on");
+    }else{
+        // turn off
+        t.removeClass("fa-toggle-on").addClass("fa-toggle-off");
+        t.data("onoff", "off");
+    }
+    
+    
+    
+    
+}
+

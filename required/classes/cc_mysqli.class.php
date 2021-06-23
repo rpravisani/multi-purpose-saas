@@ -547,6 +547,11 @@ class cc_dbconnect{
 		return (empty($return)) ? false : $return;
 	}
 	
+    // ALIAS di get_max_row()
+	public function max_value($column, $table, $condizione="", $returnit=true){
+        return $this->get_max_row($column, $table, $condizione, $returnit);
+    }
+    
 	public function get_max_row($column, $table, $condizione="", $returnit=true){
 		$qry = "SELECT MAX(`".$column."`) FROM ".$table." ".$condizione;
 		if ($this->overwriteQuery) $this->qry = $qry;

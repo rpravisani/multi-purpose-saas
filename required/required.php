@@ -199,8 +199,9 @@ if(RESTRICTED_ACCESS){
 			if(!$account_valid){
 				$_SESSION['error'] = $_t->get('account-not-valid-anymore');
 				$_SESSION['login'] = false;
+                header('location: '.HTTP_PROTOCOL.HOSTROOT.SITEROOT.'login.php');
+                exit;
 			}
-
 			
 			$checktime = time();
 			
@@ -228,7 +229,7 @@ if(RESTRICTED_ACCESS){
 						setcookie("user", "", time()-3600); // TODO use class
 					}
 					
-					// redirect
+					// Timout redirect
 					header('location: '.HTTP_PROTOCOL.HOSTROOT.SITEROOT.'login.php');
 					exit;
 				
@@ -241,8 +242,8 @@ if(RESTRICTED_ACCESS){
 					if(LOG_ACCESS and !empty($_SESSION['access_log_id'])){
 						$db->update(DBTABLE_ACCESS_LOGS, array("last_active" => date("Y-m-d H:i:s", time())), "WHERE id = '".$_SESSION['access_log_id']."'");
 					}
-				}
-				
+				} // end if in time
+                				
 			}else{ 
 			
 				// logintime not set - do not grant access and redirect to login page
@@ -332,13 +333,16 @@ if(RESTRICTED_ACCESS){
 		$cancopy	 = $_user->canCopy(); // for now alias of canwrite, but being a var it can be changed on page base
 		$canactivate = $_user->canActivate(); // only takes values of this page or modify_page (for table)
 		
-		
 		// if user has no writing permissions set $readonly var to readonly attrib
 		$readonly = ($canedit) ? "" : "readonly=\"readonly\"";
 		
-		
 		// Creating menu object
 		$menu = new cc_menu($pid, $show_pages, $db, false); // second param was $permitted_pages
+        
+        
+        /*** INCLUDE SCRIPT FOR PAGE-LOCKS HANDLING ***/
+        //include 'page-lock.php';
+        
 				
 		/*** CREATING ARRAY WITH LAST VISITED PAGES  -- NOT YET USED ***/
 		$navigation = (empty($_SESSION['navlog'])) ? $navigation = array() : $_SESSION['navlog'];		
@@ -513,7 +517,7 @@ if($_action == "upload"){
 		unset($_SESSION['savevalues']);
 	}
 	
-	// if write2db / switchfile ha sencountered some problems on some fields these will be stored in $__wrongfields array
+	// if write2db / switchfile has encountered some problems on some fields these will be stored in $_wrongfields array
 	// which is used in phpbootstrap.class to add a error class to those fields
 	$_wrongfields = array();
 	if(!empty($_SESSION['wrongfields'])){
@@ -521,8 +525,7 @@ if($_action == "upload"){
 			$_wrongfields[] = $_wf;
 		}
 		unset($_SESSION['wrongfields']);
-	}
-	
+	}	
 	
 	// if action = update and record is set but no data is found set canwrite to false (no save buttons) and insert pagealert with warning
 	if( !empty($_record) and empty($_data) and $_action == 'update'){

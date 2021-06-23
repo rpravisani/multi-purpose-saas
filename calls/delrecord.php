@@ -33,6 +33,7 @@ $reset_order = false; // TODO if true data will be reordered in table (table mus
 $order_clause = ""; // TODO must contain clause to be used in reorder records if $reset_order is true
 $dependencies = array();
 $delete_dependencies = false;
+$reload = false; // switch per indicare se dopo la cancellazione la UI dev'essere ricaricata. Override in swtich file
 
 $reassign = array(); // array avente chiave tabella e come valore array degli id a cui riassgnare un nuovo valore
 $reassign_values = array(); // array con valori per creare select da cui scegliere nuovo valore da attribuire
@@ -214,10 +215,19 @@ foreach($recids as $recid){ // records loop
 	
 }  // end foreach
 
-$output['result'] = true;
-$output['error'] = "";
-$output['msg'] = "";
+/** 
+ * Se nel file switch esiste la funzione postDelete questa viene eseguita. 
+ * Serve per fare delle operazione post cancellazioen records, come p.e. cambiare ordine ai record rimanenti
+ */
+if(function_exists("postDelete")){
+    postDelete();
+}
+
+$output['result']  = true;
+$output['error']   = "";
+$output['msg']     = "";
 $output['deleted'] = $records_deleted;
+$output['reload']  = $reload;
 
 if($multidel){
 	if(empty($records_deleted) ){

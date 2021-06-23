@@ -35,7 +35,6 @@ h1 sup.label, h2 sup.label, h3 sup.label, h4 sup.label{
 	vertical-align: middle;
 }
 
-
 .inner-modal{
 	max-height: 72vh;
 	overflow:scroll;
@@ -56,7 +55,8 @@ td.tl_id{
 }
 
 .select2-container--default.select2-container--disabled .select2-selection--single{
-	background-color: #fff;
+	background-color: #f8f8f8;
+    cursor: not-allowed;
 }
 .select2-container--default.select2-container--disabled .select2-selection--single .select2-selection__arrow{
 	display: none;
@@ -95,15 +95,12 @@ table i[class*='fa-'] {
 	font-size: 18px;
 }
 
-.puls, .get-chat, .onoff, .multifield .input-group .input-group-addon, .see i.fa-search, .linkBtn{
+.puls, .get-chat, .onoff, .toggle-switch, .multifield .input-group .input-group-addon, .see i.fa-search, .linkBtn, .cursor-pointer{
 	cursor: pointer;
 }
 
 .cursor-not-allowed{
-	cursor: not-allowed;
-}
-.cursor-pointer{
-	cursor: pointer;
+	cursor: not-allowed; 
 }
 
 .text-disabled{
@@ -118,12 +115,34 @@ table i[class*='fa-'] {
 	color: #367fa9;
 }
 
-.onoff.fa-toggle-off{
+.onoff.fa-toggle-off, .toggle-switch.fa-toggle-off{
 	color: #dd4b39;
 }
 
-.onoff.fa-toggle-on, td .fa-check{
+.onoff.fa-toggle-on, .toggle-switch.fa-toggle-on, td .fa-check{
 	color: #00a65a;
+}
+
+.onoff.fa-toggle-off, .toggle-switch.fa-toggle-off{
+	color: #dd4b39;
+}
+
+.onoff.fa-toggle-on, .toggle-switch.fa-toggle-on, td .fa-check{
+	color: #00a65a;
+}
+
+.toggle-switch {
+    font-size: 22px;
+    vertical-align: -2.5px;
+    margin-right: 6px;
+}
+.toggle-disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.inline-toggle-switch{
+    margin-right: 15px;
 }
 
 .evidenziato{
@@ -170,7 +189,6 @@ td .eye{
 .multifield-disabled .input-group .input-group-addon{
 	color: #fff;
 }
-
 
 #maintenance .maintenance-off{
 	opacity: 0.5;
@@ -223,6 +241,21 @@ label i.fa, i.fa.hint {
 
 button i.mr{
 	margin-right: 5px;
+}
+
+.nav-tabs-custom>.nav-tabs>li>a{
+    background-color: #f5f5f5;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+.nav-tabs-custom>.nav-tabs>li>a:hover{
+    background-color: #3c8dbc;
+    color: #fff;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee;
+
 }
 
 /*** SPINNER ***/

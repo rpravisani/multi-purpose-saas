@@ -2,13 +2,15 @@
 
 class phpbootstrap{
 	
-	private $datePicker = false;
-	private $timePicker = false;
-	private $gotSeconds = false;
-	private $minuteStep = 5;
-	private $requiredSign = "*";
+	private $datePicker     = false;
+	private $colorPicker    = false;
+	private $timePicker     = false;
+	private $gotSeconds     = false;
+	private $minuteStep     = 5;
+	private $requiredSign   = "*";
 	private $add_permission = false, $edit_permission = false, $show_permission = false, $delete_permission = false, $copy_permission = false, $activate_permission = false;
 	
+    private $CustomColorPickerFunc = false;
 	
 	private function strip($html){
 		return strip_tags($html, "<br><br/><strong><b><em><i><a><button><hr><img><ul><ol><li><small><span>");
@@ -81,8 +83,39 @@ class phpbootstrap{
 		return $output;
 		
 	}
-
-    public function toggle($onoff = 0, $label = '', $id = false, $extraclass = ''){
+    
+    public function toggle($args, $tabindex = 0){
+        
+        $toggle = "";
+            
+        $name       = $args['name'];
+        $value      = (int)  $args['value'];
+        $switch     = (empty($args['value'])) ? "off" : "on";
+        $label      = (empty($args['label'])) ? "" : trim($args['label']);
+        $id         = (empty($args['id'])) ? $name : $args['id'];
+        $extraclass = (empty($args['extraclass'])) ? "" : (string) $args['extraclass']; "id='".$args['id']."'";
+        $class      = (empty($args['disabled'])) ? "" : "toggle-disabled";
+        $inline     = (empty($args['inline'])) ? "" : "inline-toggle-switch";
+        
+        $tabindex   = (empty($tabindex)) ? "" : "tabindex='".$tabindex."'";
+        
+        if( empty($inline) and !empty($label) ){
+            $toggle .= "<label>".$label."</label><br>";
+        }
+        
+        $extraclass_input = (empty($args['disabled'])) ? $extraclass."_input" : "";
+        
+        if(!empty($inline)) $toggle .= "<span class='".$inline."'>";
+        if(empty($args['disabled'])) $toggle .= "<input type='hidden' name='".$name."' id='".$id."' value='".$value."' class='".$extraclass_input."'>";
+		$toggle .= "<i id='toggle_".$id."' data-onoff=\"".$switch."\" class=\"fa fa-toggle-".$switch." ".$extraclass." toggle-switch ".$class."\" ".$tabindex."></i>";
+        if(!empty($inline) and !empty($label)) $toggle .= " ".$label;
+        if(!empty($inline)) $toggle .= "</span>";
+        
+        return $toggle;
+        
+    }
+    
+    public function toggleFaux($onoff = 0, $label = '', $id = false, $extraclass = ''){
         $switch = (empty($onoff)) ? "off" : "on";
         $id = ($id) ? "id='".$id."'" : "";
 		$toggle = "<i ".$id." data-onoff=\"".$switch."\" class=\"fa fa-toggle-".$switch." ".$extraclass." toggle-switch\"></i>";
@@ -323,6 +356,121 @@ class phpbootstrap{
 	}
 
 	/*---- INPUT ELEMENTS ---------------------------------------------------------------------------------------*/	
+    
+    /**
+     * Generic method for outputting a form field.
+     * Args must contain a 'type' entry wich specifies the type of field to output. some aliases cas be used (see switch)
+     * if a wrong o inexisting type is passed it wil fallback to a text input.
+     * Tabindex is externalised and if not empty will overwrite any tabindex entry in the arg array. This is so we can assign 
+     * the tabindex in the view where it makes more sense it should be. 
+     */
+    public function field($args, $tabindex = 0){
+        
+        if(empty($args)) $args['type'] = "text";
+        
+        $type = trim($args['type']);
+        if(empty($type)) $type = "text";
+        
+        $tabindex = (int) $tabindex;
+        if(!empty($tabindex)) $args['tabindex'] = $tabindex;
+        
+        switch($type){
+            case 'wysiwyg':
+            case 'rte':
+            case 'editor':
+                $type = "_wysiwyg";
+                break;
+            case 'text':
+            case 'number':
+            case 'password':
+            case 'email':
+            case 'url':
+                $type = "input".ucfirst($args['type']);
+                break;
+            case 'date':
+            case 'datepicker':
+                $type = "datepicker";
+                break;
+            case 'time':
+            case 'timepicker':
+                $type = "timepicker";
+                break;
+            case 'color':
+            case 'colorpicker':
+                $type = "colorpicker";
+                break;
+            case 'money':
+            case 'currency':
+                $type = "currency";
+                break;
+        }
+        
+        if( !method_exists($this, $type) or empty($type) ){
+            $args['type'] = "text";
+            $type = "input";
+        }
+        
+        if(count($args) == 1 or isset($args['--dbg'])){
+            
+            $r = new ReflectionMethod($this, $type);
+            $params = $r->getParameters();
+            $output = "Type: <strong>".$type."</strong><br>\n";
+            $p = array();
+            foreach ($params as $param) {
+                $default = ($param->isOptional()) ? $this->getRealValue($param->getDefaultValue()) : '';
+                $badgeClass = ($param->isOptional()) ? "bg-green" : "bg-light-blue";
+                $pName = "<span class='badge ".$badgeClass."'>";
+                $pName .= $param->getName();
+                if($param->isOptional()) $pName .= ": <em>".$default."</em>";
+                $pName .= "</span>";
+                $p[] = $pName; 
+            }
+            $output .= implode(" ", $p);
+            return $output;
+            
+        }else{
+            
+            if(isset($args['name'])){
+                if( $dot  = stripos($args['name'], ".") !== false and empty($args['id']) ){
+                    $args['id'] = substr($args['name'], $dot+1);
+                }             
+            }
+            
+            return $this->$type($args);            
+        }
+        
+        
+    }
+    
+    private function getRealValue($val){
+        $type = gettype($val);
+        
+        switch($type){
+            case 'boolean':
+                $val = ($val === true) ? 'true' : 'false';
+                break;
+            case 'NULL':
+                $val = 'null';
+                break;
+            case 'array':
+            case 'object':
+                $val = (empty($val)) ? "" : implode(",", (array) $val);
+                $val = "array(".$val.")";
+                break;
+            case 'string':
+                $val = "'".$val."'";
+                break;
+            case 'integer':
+            case 'double':
+                break;
+            default:
+                $val = "";
+                break;
+        }
+        
+        return $val;
+        
+    }
 	
 	// create select2 html complete with bootstrap wrapper and label. 
 	public function select2($label, $name = "", $options = "", $required = false, $tabindex = false, $multi = false, $disabled = false, $id = false, $class = ""){
@@ -445,7 +593,7 @@ class phpbootstrap{
 		// This allows the use of an array with arguments and maintain backward compatibility
 		if(is_array($label)) extract($label);		
 		
-		return $this->input("text", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class, $data);
+		return $this->input("text", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class, $data, $help);
 	}
 
 	// create input type number element complete with bootstrap wrapper and label. $addon = text/html of add on (p.e. '€' or '<i class="fa fa-envelope"></i>')
@@ -454,7 +602,7 @@ class phpbootstrap{
 		// This allows the use of an array with arguments and maintain backward compatibility
 		if(is_array($label)) extract($label);
 		
-		return $this->input("number", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, 0, $min, $max, $step, $id, $addon, $addonEnd, $class, $data);
+		return $this->input("number", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, 0, $min, $max, $step, $id, $addon, $addonEnd, $class, $data, $help);
 	}
 
 	// create input type password element complete with bootstrap wrapper and label. $addon = text/html of add on (p.e. '€' or '<i class="fa fa-envelope"></i>')
@@ -463,17 +611,17 @@ class phpbootstrap{
 		// This allows the use of an array with arguments and maintain backward compatibility
 		if(is_array($label)) extract($label);
 		
-		return $this->input("password", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class);
+		return $this->input("password", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class, $data, $help);
 	}
 
 	// create input type email element complete with bootstrap wrapper and label. Addon <i class="fa fa-envelope"></i>' default = on
-	public function inputEmail($label, $name = "", $value = false, $placeholder = "", $required = false, $tabindex = false, $readonly = false, $disabled = false, $maxleng = 0, $id = false, $addon = true, $addonEnd = false, $class = "", $data = false){
+	public function inputEmail($label, $name = "", $value = false, $placeholder = "", $required = false, $tabindex = false, $readonly = false, $disabled = false, $maxleng = 0, $id = false, $addon = true, $addonEnd = false, $class = "", $data = false, $help){
 		
 		// This allows the use of an array with arguments and maintain backward compatibility
 		if(is_array($label)) extract($label);
 		
 		$addon = ($addon) ? "<i class=\"fa fa-envelope\"></i>" : "";
-		return $this->input("email", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class);
+		return $this->input("email", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class, $help);
 	}
 
 	// create input type password element complete with bootstrap wrapper and label. Addon <i class="fa fa-envelope"></i>' default = on
@@ -482,18 +630,20 @@ class phpbootstrap{
 		// This allows the use of an array with arguments and maintain backward compatibility
 		if(is_array($label)) extract($label);
 		
-		return $this->input("url", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class);
+		return $this->input("url", $label, $name, $value, $placeholder, $required, $tabindex, $readonly, $disabled, $maxleng, 0, 0, 0, $id, $addon, $addonEnd, $class, $help);
 	}
 	
 	// general input generator - limited to type = text, password, email, number, url (for now)
-	public function input($type = "text", $label, $name, $value = false, $placeholder = "", $required = false, $tabindex = false, $readonly = false, $disabled = false, $maxleng = 0, $min = 0, $max = 0, $step = 0, $id = false, $addon = "", $addonEnd = false, $class = "", $data = false){
+	public function input($type = 'text', $label = '', $name = '', $value = false, $placeholder = "", $required = false, $tabindex = false, $readonly = false, $disabled = false, $maxleng = 0, $min = 0, $max = 0, $step = 1, $id = false, $addon = "", $addonEnd = false, $class = "", $data = false, $help = ""){
 		
 		global $_wrongfields;
+
 		
 		// This allows the use of an array with arguments and maintain backward compatibility
-		if(is_array($type)) extract(type);		
+		if(is_array($type)) extract($type);		
 		
 		$eclass = (string) trim($class);
+        
 		// if cannot edit (neither canadd flag or canedit flag is true) set readonly flag to true
 		if(!$this->canEdit()){
 			$readonly = true;			
@@ -503,7 +653,9 @@ class phpbootstrap{
 		}
 		
 		$form_group_class = "form-group"; 
-		if( in_array($name, $_wrongfields) ) $form_group_class .= " has-error";
+        if(isset($_wrongfields)){
+		  if( in_array($name, $_wrongfields) ) $form_group_class .= " has-error";            
+        }
 		
 		// get input params
 		$p = $this->setInputParams($label, $name, $required, $tabindex, $id, $placeholder, $readonly, $disabled, $maxleng, $min, $max, $step, $data);
@@ -521,7 +673,7 @@ class phpbootstrap{
         if(!empty($addon) and $addonEnd)  $out .= "    <span class=\"input-group-addon\">".$addon."</i></span>\n";
 		if(!empty($addon))                $out .= "  </div>\n  "; // chiudi input-group
 		
-        $out .= "<span class=\"help-block\"></span>"; // fine $form_group_class
+        $out .= "<span class=\"help-block\">".$help."</span>"; // fine $form_group_class
         $out .= "</div>\n"; // fine $form_group_class
 		
 		return $out;
@@ -872,6 +1024,55 @@ class phpbootstrap{
 	}
 		
 
+	public function colorpicker($args){
+                
+        $label    = (isset($args['label'])) ? trim($args['label']) : "";
+        $name     = (isset($args['name']))  ? trim($args['name']) : "";
+        $value    = (isset($args['value'])) ? trim($args['value']) : ""; // altra sanificazione
+        $class    = (isset($args['class'])) ? trim($args['class']) : ""; 
+        $id       = (isset($args['id'])) ? trim($args['id']) : $name;
+        $required = (isset($args['required'])) ? boolval($args['required']) : false;
+        $disabled = (isset($args['disabled'])) ? boolval($args['disabled']) : false;
+        $addon    = (isset($args['addon'])) ? boolval($args['addon']) : true;
+        $tabindex = (isset($args['tabindex'])) ? (int) $args['tabindex'] : "";
+        
+		
+		if($required){
+			$required = "required=\"required\"";
+			$label = (string) $label.$this->requiredSign;
+		}else{
+			$required = "";
+		}
+        
+        if(!empty($label)){
+            $for = (empty($id)) ? "" : " for=\"".$id."\"";
+            $label  = "<label".$for.">".$label."</label>";
+        }
+        
+		$disabled = ($disabled) ? "disabled=\"disabled\"" : "";
+		$tabindex = ($tabindex) ? "tabindex=\"".$tabindex."\"" : "";
+		$name = ($name) ? "name=\"".$name."\"" : "";
+        $id = (empty($id)) ? "id=\"".$id."\"" : "";
+        
+        $output = $label;
+        $output .= "
+            <div class=\"input-group cc-colorpicker ".$class."\">
+                <input type=\"text\" ".$name." ".$id." ".$tabindex." ".$disabled." ".$required." class=\"form-control\" value=\"".$value."\">
+        ";
+               
+        $output .= ($addon) ? "<div class=\"input-group-addon\"><i></i></div>" : "";
+               
+        $output .= "</div>";
+        
+		
+		// set colorPicker flag to true so that cpanel loads css and js assets NON UTILIZZATO PER ORA
+		$this->colorPicker = true;
+        $this->customColorPickerFunc = (isset($args['custom_func'])) ? boolval($args['custom_func']) : false;
+
+		return $output;
+	}
+    
+    
 /********************************* HELPERS **********************************************/
 	
 	public function getSelectOptions($array, $sel, $firstEmpty = true){
@@ -909,8 +1110,14 @@ class phpbootstrap{
 		
 		if(!empty($name)){
 			$name = (string) $name;
+            
+            if( $dot  = stripos($name, ".") !== false and empty($id)){
+                $id = substr($name, $dot+1);
+            }             
+
 			$id = ($id) ? "id=\"".$id."\"" : "id=\"".$name."\"";
 			$name = "name=\"".$name."\"";
+            
 		}else{
 			$name = "";
 			$id = ($id) ? "id=\"".$id."\"" : "";

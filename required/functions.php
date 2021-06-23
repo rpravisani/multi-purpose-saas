@@ -393,7 +393,7 @@ function cc_word_trim($text, $nwords, $suffix=""){
  * @param first_empty (bool) flagse generare come primo option un valore vuoto
  * @param orderby (false|key|value) false: lascia invariata l'array, ket, ordina array per chiave, value: ordine array per valore
  */
-function array2selectOptions($array, $selected = '', $first_empty = true,  $orderby = false ){
+function array2selectOptions($array, $selected = array(), $first_empty = true,  $orderby = false ){
 	if(!is_array($array)) return "<option disabled>Nessun dato passato</option>";
 	
 	if($orderby == 'key'){
@@ -406,7 +406,12 @@ function array2selectOptions($array, $selected = '', $first_empty = true,  $orde
 	if($first_empty) $options = "<option value=''>&nbsp;</option>\n";
 	
 	foreach($array as $key => $value){
-		$s = ($key == $selected) ? "selected" : "";
+        if(is_array($selected)){
+		  $s = (in_array($key, $selected)) ? "selected" : "";                        
+        }else{
+		  $s = ($key == $selected) ? "selected" : "";            
+        }
+        
 		$options .= "<option ".$s." value= '".$key."'>".$value."</option>\n";
 	}
 	

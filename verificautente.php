@@ -159,6 +159,7 @@ if (!empty($_POST['email']) AND !empty($_POST['password'])){
 			$open_sessions = $db->select_all(DBTABLE_ACCESS_LOGS, "WHERE user = '".$chkuser['id']."' AND user_agent = '".$user_agent_id."' AND logout_datetime = '0000-00-00 00:00:00'");
 
 			if($open_sessions){
+        
 				foreach($open_sessions as $open_session){
 					$ts_last_active = ($open_session['last_active'] == '0000-00-00 00:00:00') ? strtotime($open_session['login_datetime']) : strtotime($open_session['last_active']);
 					$ts_logout_datetime = $ts_last_active + (SESSION_LENGHT * 60);
@@ -173,7 +174,7 @@ if (!empty($_POST['email']) AND !empty($_POST['password'])){
 			$access_log_values = array($login_time, $chkuser['id'], $user_agent_id);
 			if($db->insert(DBTABLE_ACCESS_LOGS, $access_log_values, array("login_datetime", "user", "user_agent"))){
 				$_SESSION['access_log_id'] = $db->get_insert_id();
-			}
+            }
 		}
 		/*** END LOG ACCESS IN DATABASE ***/
 
