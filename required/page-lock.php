@@ -1,9 +1,17 @@
 <?php
+/***
+PER ORA VA BENE COSI' ANCHE SE NON E' PERFETTO
+TODO: 
+-notifications dovrebbe controllare in caso di elenco se vi sono dei record occupati e quindi aggiornare link con lente 
+-notifications dovrebbe controllare in caso di modulo se page_lock per la pagina / record esiste ancora e in caso negativo controllare se vi è un altro utente
+ collegato e in tal caso ridiriggere verso elenco
+- magari a sto punto implementare con logout o standby automatico, nel senso che è in timeout l'utente venga reinidirzzato al login
+***/
+
 class page_locks{
     
     private $pid, $record, $user;
-    //private $max_timeout = SESSION_LENGHT * 60;
-    private $max_timeout = 60;
+    private $max_timeout = SESSION_LENGHT * 60;
     
     public function __construct($pid, $record, $user){
         
