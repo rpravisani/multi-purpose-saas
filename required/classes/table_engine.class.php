@@ -111,11 +111,12 @@ class table_engine{
 	private $totcols = 0; // Total number of columns (without see and del/copy/eye column)
 	
 	private $row = array(); // Holds all the td values row per row, column per column (see function $this->createFormattedData() )
-	private $attr = array(); // oHlds all the td attributes row per row, column per column passed on by $this->extra_td[$key] (see above)
-	private $class = array(); // holds the class values for every td, row per row, column per column
+	private $attr = array(); // Holds all the td attributes row per row, column per column passed on by $this->extra_td[$key] (see above)
+	private $class = array(); // Holds the class values for every td, row per row, column per column
 	
 	private $show_unread = false; // Switch to set if unread rows must be bold
-		
+    
+    private $locked_records = array();
 	
 	/*** END VARIABLES ***/
 	
@@ -139,7 +140,25 @@ class table_engine{
 		$this->cancopy	 	= $_user->canCopy();
 		$this->canactivate	= $_user->canActivate();
 		$this->readonly	    = $_user->isReadOnly();
+        
+        $this->locked_records = $this->getLockedRecords($mid);
 	}	
+    
+    public function getLockedRecords($mid){
+        global $db;
+        
+        $qry = "
+        SELECT l.record, CONCAT(u.name, ' ', u.surname) AS name 
+        FROM page_locks AS l 
+        JOIN users AS u ON (u.id = l.user) 
+        WHERE l.pid = '".$mid."'
+        ";
+        
+        $locked = $db->fetch_array_indexed($qry, "record"); // default index is id
+        
+        return ($locked) ? $locked : array();
+
+    }
 
 /*** PROCESS CHAIN ***/
 
@@ -597,6 +616,14 @@ class table_engine{
 						// magnifying glass in table - fundamental
 						if($key == "see"){
 							$value = '<i data-view="html" data-action="update" data-pid="'.$this->mid.'" data-record="'.$row['id'].'" class="goto fa fa-search"></i>';
+                            if(!empty($this->locked_records)){
+                                
+                                if( in_array($row['id'], array_keys($this->locked_records) ) ){
+                                    $locker_name = $this->locked_records[$row['id']]['name'];
+                                    $value = '<i class="fa fa-lock text-red" title="Record bloccato da utente '.$locker_name.'" data-toggle="tooltip" data-placement="right" ></i>';
+                                }
+                                
+                            }
 							if($attr == "") $attr = "align='center'";
 						}
 						

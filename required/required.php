@@ -341,7 +341,7 @@ if(RESTRICTED_ACCESS){
         
         
         /*** INCLUDE SCRIPT FOR PAGE-LOCKS HANDLING ***/
-        //include 'page-lock.php';
+        include 'page-lock.php';
         
 				
 		/*** CREATING ARRAY WITH LAST VISITED PAGES  -- NOT YET USED ***/
